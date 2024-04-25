@@ -77,7 +77,7 @@ namespace TSPP
         private void addbtn_Click(object sender, RoutedEventArgs e)
         {
             UniWorker tmp = new();
-            if (nametxtbx.Text != "" || kafedratxtbx.Text != "" || birthtxtbx.Text!="" || workyeartxtbx.Text!="" || ranktxtbx.Text!="" || sciranktxtbx.Text!="" )
+            if (CheckForEmptyFields())
             {
                 tmp.Name = nametxtbx.Text;
                 tmp.Kafedra = kafedratxtbx.Text;
@@ -91,6 +91,16 @@ namespace TSPP
             {
                 MessageBox.Show("Заповніть всі поля");
             }
+        }
+
+        private bool CheckForEmptyFields()
+        {
+            if (nametxtbx.Text == "" || kafedratxtbx.Text == "" || birthtxtbx.Text == "" || workyeartxtbx.Text == "" || ranktxtbx.Text == "" || sciranktxtbx.Text == "")
+            {
+                MessageBox.Show("Заповніть всі поля");
+                return false;
+            }
+            return true;
         }
 
         public void AddUniWorker(string name, string kafedra, int birthYear, int workYear, string rank, string scienceRank)
@@ -157,16 +167,19 @@ namespace TSPP
 
         private void editbtn_Click(object sender, RoutedEventArgs e)
         {
-            UniWorker tmp = new();
-            tmp.Id = selectedId;
-            tmp.Name = nametxtbx.Text;
-            tmp.Kafedra = kafedratxtbx.Text;
-            tmp.BirthYear = Convert.ToInt32(birthtxtbx.Text);
-            tmp.WorkYear = Convert.ToInt32(workyeartxtbx.Text);
-            tmp.Rank = ranktxtbx.Text;  
-            tmp.ScienceRank = sciranktxtbx.Text;
-            EditUniWorker(tmp.Id, tmp.Name, tmp.Kafedra, tmp.BirthYear, tmp.WorkYear, tmp.Rank, tmp.ScienceRank);
-            updateTable();
+            if (CheckForEmptyFields())
+            {
+                UniWorker tmp = new();
+                tmp.Id = selectedId;
+                tmp.Name = nametxtbx.Text;
+                tmp.Kafedra = kafedratxtbx.Text;
+                tmp.BirthYear = Convert.ToInt32(birthtxtbx.Text);
+                tmp.WorkYear = Convert.ToInt32(workyeartxtbx.Text);
+                tmp.Rank = ranktxtbx.Text;
+                tmp.ScienceRank = sciranktxtbx.Text;
+                EditUniWorker(tmp.Id, tmp.Name, tmp.Kafedra, tmp.BirthYear, tmp.WorkYear, tmp.Rank, tmp.ScienceRank);
+                updateTable();
+            }
         }
 
         private void DeleteUniWorker(int id)
@@ -195,11 +208,14 @@ namespace TSPP
 
         private void deletebtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this item?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            if (CheckForEmptyFields())
             {
-                DeleteUniWorker(selectedId);
-                updateTable();
+                MessageBoxResult result = MessageBox.Show("Точно видалити вибраного співробітника?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    DeleteUniWorker(selectedId);
+                    updateTable();
+                }
             }
             
             
