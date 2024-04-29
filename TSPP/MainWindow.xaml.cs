@@ -10,6 +10,8 @@ namespace TSPP
     /// </summary>
     public partial class MainWindow : Window
     {
+        const int MAXDBENTRY = 10;
+        bool isMaxEntry;
         string connectionString = "SERVER=152.67.71.178;PORT=3306;DATABASE=University;UID=oleksii;PASSWORD=20032004Alexey1;";
         public MainWindow()
         {
@@ -53,6 +55,7 @@ namespace TSPP
                     MessageBox.Show("Помилка при підключенні до бази даних");
                 }
             }
+            checkForMaxEntry();
         }
         int selectedId;
         private void dataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -79,13 +82,21 @@ namespace TSPP
             UniWorker tmp = new();
             if (CheckForEmptyFields())
             {
-                tmp.Name = nametxtbx.Text;
-                tmp.Kafedra = kafedratxtbx.Text;
-                tmp.BirthYear = Convert.ToInt32(birthtxtbx.Text);
-                tmp.WorkYear = Convert.ToInt32(workyeartxtbx.Text);
-                tmp.Rank = ranktxtbx.Text;
-                tmp.ScienceRank = sciranktxtbx.Text;
-                AddUniWorker(tmp.Name, tmp.Kafedra, tmp.BirthYear, tmp.WorkYear, tmp.Rank, tmp.ScienceRank);
+                if(isMaxEntry)
+                {
+                    MessageBox.Show("Досягнуто максимальну кількість записів");
+                    return;
+                }
+                else
+                {
+                    tmp.Name = nametxtbx.Text;
+                    tmp.Kafedra = kafedratxtbx.Text;
+                    tmp.BirthYear = Convert.ToInt32(birthtxtbx.Text);
+                    tmp.WorkYear = Convert.ToInt32(workyeartxtbx.Text);
+                    tmp.Rank = ranktxtbx.Text;
+                    tmp.ScienceRank = sciranktxtbx.Text;
+                    AddUniWorker(tmp.Name, tmp.Kafedra, tmp.BirthYear, tmp.WorkYear, tmp.Rank, tmp.ScienceRank);
+                }
             }
             else
             {
@@ -219,6 +230,32 @@ namespace TSPP
             }
             
             
+        }
+
+        public void checkForMaxEntry()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    MySqlCommand cmd = new MySqlCommand("SELECT COUNT(*) FROM UniWorkers", connection);
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (count >= MAXDBENTRY)
+                    {
+                        MessageBox.Show("Досягнуто максимальну кількість записів");
+                        isMaxEntry = true;
+                    }
+                    else
+                    {
+                        isMaxEntry = false;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Помилка при підключенні до бази даних");
+                }
+            }
         }
     }
 }
