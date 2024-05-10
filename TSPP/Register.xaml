@@ -1,0 +1,17 @@
+﻿<Window x:Class="TSPP.Register"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TSPP"
+        mc:Ignorable="d"
+        Title="Register" Height="450" Width="220">
+    <StackPanel VerticalAlignment="Center">
+        <Image Margin="10" Source="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"/>
+        <TextBox x:Name="UsernameTextBox" Margin="10" MinHeight="20" MinWidth="180"/>
+        <PasswordBox x:Name="PasswordBox" Margin="10"/>
+        <Button Content="Register" Margin="10" Click="RegisterButton"/>
+        <Button Content="Already have account? Login" Click="LoginButton_Click" Margin="10"/>        
+        <Button Content="Continue as guest" Margin="10" Click="Button_Click"/>
+    </StackPanel>
+</Window>

@@ -12,12 +12,24 @@ namespace TSPP
     {
         const int MAXDBENTRY = 10;
         bool isMaxEntry;
+        public bool isGuest { get; private set; }
         string connectionString = "SERVER=152.67.71.178;PORT=3306;DATABASE=University;UID=oleksii;PASSWORD=20032004Alexey1;";
+        public MainWindow(bool _isGuest)
+        {
+            InitializeComponent();
+            updateTable();
+            this.isGuest = _isGuest;
+            if(isGuest)
+            {
+                addbtn.IsEnabled = false;
+                editbtn.IsEnabled = false;
+                deletebtn.IsEnabled = false;
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
             updateTable();
-
         }
 
         private void updateTable()
