@@ -1,17 +1,20 @@
-﻿using MySql.Data;
-using MySql.Data.MySqlClient;
-using System.Data;
+﻿using MySql.Data.MySqlClient;
+using System.Reflection.Metadata;
 using System.Windows;
+using System.Windows.Documents;
+using Microsoft.Office.Interop.Word;
+using Paragraph = Microsoft.Office.Interop.Word.Paragraph;
 
 namespace TSPP
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         const int MAXDBENTRY = 10;
         bool isMaxEntry;
+        List<UniWorker> uniWorkers;
         public bool isGuest { get; private set; }
         string connectionString = "SERVER=152.67.71.178;PORT=3306;DATABASE=University;UID=oleksii;PASSWORD=20032004Alexey1;";
         public MainWindow(bool _isGuest)
@@ -24,6 +27,7 @@ namespace TSPP
                 addbtn.IsEnabled = false;
                 editbtn.IsEnabled = false;
                 deletebtn.IsEnabled = false;
+                editcol.Width = new GridLength(0);
             }
         }
         public MainWindow()
@@ -41,7 +45,7 @@ namespace TSPP
                 {
                     connection.Open();
                     MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand("SELECT * FROM UniWorkers", connection);
-                    List<UniWorker> uniWorkers = new List<UniWorker>();
+                    uniWorkers = new List<UniWorker>();
                     MySqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -106,7 +110,10 @@ namespace TSPP
                     tmp.BirthYear = Convert.ToInt32(birthtxtbx.Text);
                     tmp.WorkYear = Convert.ToInt32(workyeartxtbx.Text);
                     tmp.Rank = ranktxtbx.Text;
-                    tmp.ScienceRank = sciranktxtbx.Text;
+                    if (sciranktxtbx.Text == "")
+                        tmp.ScienceRank = "none";
+                    else
+                        tmp.ScienceRank = sciranktxtbx.Text;
                     AddUniWorker(tmp.Name, tmp.Kafedra, tmp.BirthYear, tmp.WorkYear, tmp.Rank, tmp.ScienceRank);
                 }
             }
@@ -118,7 +125,7 @@ namespace TSPP
 
         private bool CheckForEmptyFields()
         {
-            if (nametxtbx.Text == "" || kafedratxtbx.Text == "" || birthtxtbx.Text == "" || workyeartxtbx.Text == "" || ranktxtbx.Text == "" || sciranktxtbx.Text == "")
+            if (nametxtbx.Text == "" || kafedratxtbx.Text == "" || birthtxtbx.Text == "" || workyeartxtbx.Text == "" || ranktxtbx.Text == "")
             {
                 MessageBox.Show("Заповніть всі поля");
                 return false;
@@ -199,7 +206,10 @@ namespace TSPP
                 tmp.BirthYear = Convert.ToInt32(birthtxtbx.Text);
                 tmp.WorkYear = Convert.ToInt32(workyeartxtbx.Text);
                 tmp.Rank = ranktxtbx.Text;
-                tmp.ScienceRank = sciranktxtbx.Text;
+                if (sciranktxtbx.Text == "")
+                    tmp.ScienceRank = "none";
+                else
+                    tmp.ScienceRank = sciranktxtbx.Text;
                 EditUniWorker(tmp.Id, tmp.Name, tmp.Kafedra, tmp.BirthYear, tmp.WorkYear, tmp.Rank, tmp.ScienceRank);
                 updateTable();
             }
@@ -268,6 +278,90 @@ namespace TSPP
                     MessageBox.Show("Помилка при підключенні до бази даних");
                 }
             }
+        }
+
+        private void scirankbtn_Click(object sender, RoutedEventArgs e)
+        {
+            updateTable();
+            if(uniWorkers.Count != 0)
+            {
+                Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
+                Microsoft.Office.Interop.Word.Document doc = wordApp.Documents.Add();
+                string find = scirankfind.Text == "" ? "none" : scirankfind.Text;
+                Paragraph paragraph = doc.Paragraphs.Add();
+                paragraph.Range.Text = $"Workers with science rank {find}\n";
+                foreach (var item in uniWorkers)
+                {
+                    if (item.ScienceRank == find)
+                    {
+                        paragraph = doc.Paragraphs.Add();
+                        paragraph.Range.Text = $"Worker {item.Name} has science rank {item.ScienceRank}\n";
+                    }
+                }
+                object fileName = GetSaveFileName();
+                if (fileName != null)
+                {
+                    try
+                    {
+                        doc.SaveAs2(ref fileName);
+                        doc.Close();
+                        wordApp.Quit();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Operation canceled. Document not saved.");
+                }
+            }
+            
+        }
+
+        private void seniorsbtn_Click(object sender, RoutedEventArgs e)
+        {
+            updateTable();
+
+            if (uniWorkers.Count != 0)
+            {
+                Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
+                Microsoft.Office.Interop.Word.Document doc = wordApp.Documents.Add();
+                Paragraph paragraph = doc.Paragraphs.Add();
+                paragraph.Range.Text = "Workers older than 60 years\n";
+                foreach (var item in uniWorkers)
+                {
+                    if ((DateTime.Now.Year - item.BirthYear) > 60)
+                    {
+                        // Write data to Word document
+                        paragraph = doc.Paragraphs.Add();
+                        paragraph.Range.Text = $"Worker {item.Name} with birth year {item.BirthYear} is older than 60 years and have worked for {DateTime.Now.Year - item.WorkYear} years.\n";
+                    }
+                }
+
+                // Save the document
+                object fileName = GetSaveFileName();
+                if (fileName != null)
+                {
+                    doc.SaveAs2(ref fileName);
+                    doc.Close();
+                    wordApp.Quit();
+                }
+                else
+                {
+                    MessageBox.Show("Operation canceled. Document not saved.");
+                }
+            }
+        }
+        private string GetSaveFileName()
+        {
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.Filter = "Word Documents|*.docx";
+            saveFileDialog.Title = "Save Output as Word Document";
+            saveFileDialog.ShowDialog();
+
+            return saveFileDialog.FileName;
         }
     }
 }
