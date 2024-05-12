@@ -9,7 +9,7 @@
         Title="Login" Height="400" Width="240">
     
     <StackPanel VerticalAlignment="Center">
-        <Image Margin="10" Source="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"/>
+        <Image Margin="10" Source="https://telegra.ph/file/11ac04e1b125941713d00.png"/>
         <TextBox x:Name="UsernameTextBox" Margin="10" MinHeight="20" MinWidth="180" Style="{StaticResource DarkTextBoxStyle}"/>
         <PasswordBox x:Name="PasswordBox" Margin="10" Style="{StaticResource DarkPassBoxStyle}"/>
         <Button Content="Login" Click="LoginButton_Click" Margin="10"  Style="{StaticResource DarkButtonStyle}"/>
