@@ -38,6 +38,13 @@ namespace TSPP
 
         private void updateTable()
         {
+            nametxtbx.Text = string.Empty;
+            kafedratxtbx.Text = string.Empty;
+            birthtxtbx.Text = string.Empty;
+            workyeartxtbx.Text = string.Empty;
+            ranktxtbx.Text= string.Empty;
+            sciranktxtbx.Text= string.Empty;
+            selectedId = 0;
             MySql.Data.MySqlClient.MySqlConnection connection;
             using (connection = new MySql.Data.MySqlClient.MySqlConnection(connectionString))
             {
@@ -100,7 +107,7 @@ namespace TSPP
             {
                 if(isMaxEntry)
                 {
-                    MessageBox.Show("Досягнуто максимальну кількість записів");
+                    MessageBox.Show("УВАГА!\nДосягнуто максимальну кількість записів");
                     return;
                 }
                 else
@@ -217,6 +224,8 @@ namespace TSPP
 
         private void DeleteUniWorker(int id)
         {
+            if (id == 0)
+                return;
             string sqlQuery = "DELETE FROM UniWorkers WHERE `Id` = @Id";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -247,6 +256,7 @@ namespace TSPP
                 if (result == MessageBoxResult.Yes)
                 {
                     DeleteUniWorker(selectedId);
+                    selectedId = 0;
                     updateTable();
                 }
             }

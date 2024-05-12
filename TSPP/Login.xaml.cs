@@ -57,6 +57,7 @@ namespace TSPP
                     catch (MySqlException ex)
                     {
                         MessageBox.Show(ex.Message);
+                        return;
                     }
                 }
             }
