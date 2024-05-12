@@ -1,5 +1,4 @@
-﻿using BCrypt.Net;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Windows;
 namespace TSPP
 {

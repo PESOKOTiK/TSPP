@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSPP"
         mc:Ignorable="d"
+        Background="DarkGray"
         Title="University workers" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -16,31 +17,42 @@
             <RowDefinition Height="6*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
-
-        <DataGrid x:Name="dataGrid" SelectionMode="Single" ItemsSource="{Binding}" AutoGenerateColumns="True" Grid.Row="1" MouseDoubleClick="dataGrid_MouseDoubleClick"/>
+        <Button x:Name="exitbuttun"
+                Margin="10" Content="Log Out"
+                Width="60" HorizontalAlignment="Left"
+                Click="exitbuttun_Click"  Style="{StaticResource DarkButtonStyle}"/>
+        <DataGrid x:Name="dataGrid" 
+                  Style="{StaticResource DarkDataGridStyle}"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding}"
+                  AutoGenerateColumns="True"
+                  Grid.Row="1"
+                  Margin="10"
+                  MouseDoubleClick="dataGrid_MouseDoubleClick"
+                  IsReadOnly="True"/>
         <DockPanel x:Name="Buttons" Grid.Column="1" Grid.RowSpan="3" LastChildFill="True">
-            <TextBox x:Name="nametxtbx" Width="240" Height="30" DockPanel.Dock="Top" Margin="0 50 0 10"/>
-            <TextBox x:Name="kafedratxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10"/>
-            <TextBox x:Name="birthtxtbx" Width="240" Height="30"  DockPanel.Dock="Top"  Margin="0 10"/>
-            <TextBox x:Name="workyeartxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10"/>
-            <TextBox x:Name="ranktxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10"/>
-            <TextBox x:Name="sciranktxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10"/>
+            <TextBox x:Name="nametxtbx" Width="240" Height="30" DockPanel.Dock="Top" Margin="0 50 0 10" Style="{StaticResource DarkTextBoxStyle}"/>
+            <TextBox x:Name="kafedratxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
+            <TextBox x:Name="birthtxtbx" Width="240" Height="30"  DockPanel.Dock="Top"  Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
+            <TextBox x:Name="workyeartxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
+            <TextBox x:Name="ranktxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
+            <TextBox x:Name="sciranktxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
             <DockPanel>
-                <Button x:Name="addbtn" Content="Add" Width="60" Height="30" DockPanel.Dock="left" Margin="10 10" Click="addbtn_Click"/>
-                <Button x:Name="editbtn" Content="Edit" Width="60" Height="30" DockPanel.Dock="Left" Margin="15 0 0 0" Click="editbtn_Click"/>
-                <Button x:Name="deletebtn" Content="Delete" Width="60" Height="30" DockPanel.Dock="Right" Margin="10 10" Click="deletebtn_Click"/>
+                <Button x:Name="addbtn" Content="Add" Width="60" Height="30" DockPanel.Dock="left" Margin="10 10" Click="addbtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
+                <Button x:Name="editbtn" Content="Edit" Width="60" Height="30" DockPanel.Dock="Left" Margin="15 0 0 0" Click="editbtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
+                <Button x:Name="deletebtn" Content="Delete" Width="60" Height="30" DockPanel.Dock="Right" Margin="10 10" Click="deletebtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
             </DockPanel>
         </DockPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="2 0">
-            <StackPanel Orientation="Vertical" Margin="30 0">
-                <TextBlock Text="Get all seniors (over 60 years)" Margin="10 10"/>
-                <Button x:Name="seniorsbtn" Content="Get" Width="60" Height="30" Click="seniorsbtn_Click" Margin="0 17"/>
+            <StackPanel Orientation="Vertical" Margin="10 0 0 0">
+                <TextBlock Text="Get all seniors (over 60 years)" Margin="10 10" Style="{StaticResource DarkTextBlockStyle}"/>
+                <Button x:Name="seniorsbtn" Content="Get" Width="60" Height="30" Click="seniorsbtn_Click" Margin="0 17"  Style="{StaticResource DarkButtonStyle}"/>
             </StackPanel>
             <Border BorderThickness="1 0" BorderBrush="Black"/>
-            <StackPanel Orientation="Vertical" Margin="30 0">
-                <TextBlock Text="Get all workers w or w/o science rank" Margin="10 10"/>
-                <TextBox x:Name="scirankfind" Margin="15 0"/>
-                <Button x:Name="scirankbtn" Content="Get" Width="60" Height="30" Click="scirankbtn_Click"/>
+            <StackPanel Orientation="Vertical" Margin="0 0">
+                <TextBlock Text="Get all workers w or w/o science rank" Margin="5 10" Style="{StaticResource DarkTextBlockStyle}"/>
+                <TextBox x:Name="scirankfind" Margin="15 0" Style="{StaticResource DarkTextBoxStyle}"/>
+                <Button x:Name="scirankbtn" Content="Get" Width="60" Height="30" Click="scirankbtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

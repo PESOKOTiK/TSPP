@@ -4,15 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSPP"
+        Background="DarkGray"
         mc:Ignorable="d"
-        Title="Login" Height="400" Width="220">
+        Title="Login" Height="400" Width="240">
     
     <StackPanel VerticalAlignment="Center">
         <Image Margin="10" Source="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png"/>
-        <TextBox x:Name="UsernameTextBox" Margin="10" MinHeight="20" MinWidth="180"/>
-        <PasswordBox x:Name="PasswordBox" Margin="10"/>
-        <Button Content="Login" Click="LoginButton_Click" Margin="10"/>
-        <Button Content="New account?  Register" Margin="10" Click="Register"/>
-        <Button Content="Continue as guest" Margin="10" Click="Button_Click"/>
+        <TextBox x:Name="UsernameTextBox" Margin="10" MinHeight="20" MinWidth="180" Style="{StaticResource DarkTextBoxStyle}"/>
+        <PasswordBox x:Name="PasswordBox" Margin="10" Style="{StaticResource DarkPassBoxStyle}"/>
+        <Button Content="Login" Click="LoginButton_Click" Margin="10"  Style="{StaticResource DarkButtonStyle}"/>
+        <Button Content="New account?  Register" Margin="10" Click="Register"  Style="{StaticResource DarkButtonStyle}"/>
+        <Button Content="Continue as guest" Margin="10" Click="Button_Click"  Style="{StaticResource DarkButtonStyle}"/>
     </StackPanel>
 </Window>

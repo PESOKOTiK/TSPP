@@ -1,8 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using System.Reflection.Metadata;
 using System.Windows;
-using System.Windows.Documents;
-using Microsoft.Office.Interop.Word;
 using Paragraph = Microsoft.Office.Interop.Word.Paragraph;
 
 namespace TSPP
@@ -27,6 +24,7 @@ namespace TSPP
                 addbtn.IsEnabled = false;
                 editbtn.IsEnabled = false;
                 deletebtn.IsEnabled = false;
+                exitbuttun.Visibility = Visibility.Collapsed;
                 editcol.Width = new GridLength(0);
             }
         }
@@ -144,9 +142,6 @@ namespace TSPP
         {
             string sqlQuery = "INSERT INTO UniWorkers (`Name`, `Kafedra`, `BirthYear`, `WorkYear`, `Rank`, `ScienceRank`) " +
                               "VALUES (@Name, @Kafedra, @BirthYear, @WorkYear, @Rank, @ScienceRank)";
-
-
-
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand cmd = new MySqlCommand(sqlQuery, connection))
@@ -157,7 +152,6 @@ namespace TSPP
                     cmd.Parameters.AddWithValue("@WorkYear", workYear);
                     cmd.Parameters.AddWithValue("@Rank", rank);
                     cmd.Parameters.AddWithValue("@ScienceRank", scienceRank);
-
                     try
                     {
                         connection.Open();
@@ -199,7 +193,6 @@ namespace TSPP
                     }
                 }
             }
-            updateTable();
         }
 
         private void editbtn_Click(object sender, RoutedEventArgs e)
@@ -250,7 +243,7 @@ namespace TSPP
 
         private void deletebtn_Click(object sender, RoutedEventArgs e)
         {
-            if (CheckForEmptyFields())
+            if (!(selectedId==0))
             {
                 MessageBoxResult result = MessageBox.Show("Точно видалити вибраного співробітника?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
@@ -275,7 +268,7 @@ namespace TSPP
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
                     if (count >= MAXDBENTRY)
                     {
-                        MessageBox.Show("Досягнуто максимальну кількість записів");
+                        MessageBox.Show("УВАГА\nДосягнуто максимальну кількість записів");
                         isMaxEntry = true;
                     }
                     else
@@ -372,6 +365,13 @@ namespace TSPP
             saveFileDialog.ShowDialog();
 
             return saveFileDialog.FileName;
+        }
+
+        private void exitbuttun_Click(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
         }
     }
 }

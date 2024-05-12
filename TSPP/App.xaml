@@ -3,6 +3,99 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TSPP">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <FontFamily x:Key="RobotoBold">/YourProjectName;component/Fonts/Roboto-Bold.ttf#Roboto</FontFamily>
+
+            <Style TargetType="TextBlock" x:Key="DarkTextBlockStyle">
+                <Setter Property="FontFamily" Value="Cascadia Code Semi Bold"/>
+                <Setter Property="Foreground" Value="Black" />
+            </Style>
+
+            <Style TargetType="Button" x:Key="DarkButtonStyle">
+                <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                <Setter Property="Background" Value="#555555" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="5" Name="Borderbutton"
+                        Background="#666666" BorderBrush="Black" 
+                        BorderThickness="0,1,1,0" >
+                                <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- Hover Effect -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Borderbutton" Property="Background" Value="#888888" />
+                                </Trigger>
+                                <!-- Click Effect -->
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Borderbutton" Property="Background" Value="#aaaaaa" />
+                                </Trigger>
+                                <!-- Restore Original Color -->
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsPressed" Value="False" />
+                                        <Condition Property="IsMouseOver" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Borderbutton" Property="Background" Value="#555555" />
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="TextBox" x:Key="DarkTextBoxStyle">
+                <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                <Setter Property="Background" Value="#666666" />
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+
+            <Style TargetType="PasswordBox" x:Key="DarkPassBoxStyle">
+                <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                <Setter Property="Background" Value="#666666" />
+                <Setter Property="Foreground" Value="Black" />
+            </Style>
+
+            <Style TargetType="DataGrid" x:Key="DarkDataGridStyle">
+                <Setter Property="Background" Value="#aaaaaa" />
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="BorderBrush" Value="#666666" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="RowBackground" Value="#aaaaaa" />
+                <Setter Property="RowHeaderWidth" Value="0" />
+                <!-- Hide row headers -->
+                <Setter Property="GridLinesVisibility" Value="All" />
+                <Setter Property="HorizontalGridLinesBrush" Value="Wheat"/>
+                <Setter Property="VerticalGridLinesBrush" Value="Wheat"/>
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="CanUserResizeColumns" Value="True" />
+                <Setter Property="CanUserResizeRows" Value="False" />
+                <Setter Property="ColumnHeaderHeight" Value="30" />
+                <Setter Property="RowHeight" Value="25" />
+                <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGrid}">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="2">
+                                <ScrollViewer Focusable="false">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
