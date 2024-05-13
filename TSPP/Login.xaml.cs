@@ -20,7 +20,7 @@ namespace TSPP
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
 
-            string query = $"SELECT passhash FROM Users WHERE username = {username}";
+            string query = $"SELECT passhash FROM Users WHERE username = '{username}'";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand command = new MySqlCommand(query, connection))

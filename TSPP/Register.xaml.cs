@@ -33,7 +33,7 @@ namespace TSPP
         {
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
-            string query = $"Select * from Users where username = {username}";
+            string query = $"Select * from Users where username = '{username}'";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 using (MySqlCommand command = new MySqlCommand(query, connection))
