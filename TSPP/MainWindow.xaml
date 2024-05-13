@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSPP"
         mc:Ignorable="d"
-        Background="DarkGray"
+        Background="#F4EEFF"
         Title="University workers" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,22 +21,121 @@
                 Margin="10" Content="Log Out"
                 Width="60" HorizontalAlignment="Left"
                 Click="exitbuttun_Click"  Style="{StaticResource DarkButtonStyle}"/>
+        <Button x:Name="refreshbtn"
+                Margin="10" Content="Refresh"
+                Width="60" HorizontalAlignment="Right"
+                Click="refreshbtn_Click"  Style="{StaticResource DarkButtonStyle}" />
         <DataGrid x:Name="dataGrid" 
                   Style="{StaticResource DarkDataGridStyle}"
                   SelectionMode="Single"
                   ItemsSource="{Binding}"
-                  AutoGenerateColumns="True"
                   Grid.Row="1"
                   Margin="10"
                   MouseDoubleClick="dataGrid_MouseDoubleClick"
                   IsReadOnly="True"/>
         <DockPanel x:Name="Buttons" Grid.Column="1" Grid.RowSpan="3" LastChildFill="True">
-            <TextBox x:Name="nametxtbx" Width="240" Height="30" DockPanel.Dock="Top" Margin="0 50 0 10" Style="{StaticResource DarkTextBoxStyle}"/>
-            <TextBox x:Name="kafedratxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
-            <TextBox x:Name="birthtxtbx" Width="240" Height="30"  DockPanel.Dock="Top"  Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
-            <TextBox x:Name="workyeartxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
-            <TextBox x:Name="ranktxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
-            <TextBox x:Name="sciranktxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10" Style="{StaticResource DarkTextBoxStyle}"/>
+            <Grid Width="240" Height="30" DockPanel.Dock="Top" Margin="0 50 0 10">
+                <TextBox x:Name="nametxtbx" Width="240" Height="30" DockPanel.Dock="Top" Style="{StaticResource DarkTextBoxStyle}"/>
+                <TextBlock Text="Name" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                            <Setter Property="Foreground" Value="#444444"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=nametxtbx}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10">
+                <TextBox x:Name="kafedratxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Style="{StaticResource DarkTextBoxStyle}"/>
+                <TextBlock Text="Kafedra" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                            <Setter Property="Foreground" Value="#444444"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=kafedratxtbx}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10">
+                <TextBox x:Name="birthtxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Style="{StaticResource DarkTextBoxStyle}"/>
+                <TextBlock Text="Birth year" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                            <Setter Property="Foreground" Value="#444444"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=birthtxtbx}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10">
+                <TextBox x:Name="workyeartxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Style="{StaticResource DarkTextBoxStyle}"/>
+                <TextBlock Text="Work year" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                            <Setter Property="Foreground" Value="#444444"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=workyeartxtbx}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10">
+                <TextBox x:Name="ranktxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Style="{StaticResource DarkTextBoxStyle}"/>
+                <TextBlock Text="Rank" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                            <Setter Property="Foreground" Value="#444444"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=ranktxtbx}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+            <Grid Width="240" Height="30"  DockPanel.Dock="Top" Margin="0 10">
+                <TextBox x:Name="sciranktxtbx" Width="240" Height="30"  DockPanel.Dock="Top" Style="{StaticResource DarkTextBoxStyle}"/>
+                <TextBlock Text="Science rank" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                            <Setter Property="Foreground" Value="#444444"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=sciranktxtbx}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
             <DockPanel>
                 <Button x:Name="addbtn" Content="Add" Width="60" Height="30" DockPanel.Dock="left" Margin="10 10" Click="addbtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
                 <Button x:Name="editbtn" Content="Edit" Width="60" Height="30" DockPanel.Dock="Left" Margin="15 0 0 0" Click="editbtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
@@ -46,13 +145,13 @@
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="2 0">
             <StackPanel Orientation="Vertical" Margin="10 0 0 0">
                 <TextBlock Text="Get all seniors (over 60 years)" Margin="10 10" Style="{StaticResource DarkTextBlockStyle}"/>
-                <Button x:Name="seniorsbtn" Content="Get" Width="60" Height="30" Click="seniorsbtn_Click" Margin="0 17"  Style="{StaticResource DarkButtonStyle}"/>
+                <Button x:Name="seniorsbtn" Content="Get" Width="60" Height="30" Click="seniorsbtn_Click" Margin="0 20"  Style="{StaticResource DarkButtonStyle}"/>
             </StackPanel>
             <Border BorderThickness="1 0" BorderBrush="Black"/>
             <StackPanel Orientation="Vertical" Margin="0 0">
                 <TextBlock Text="Get all workers w or w/o science rank" Margin="5 10" Style="{StaticResource DarkTextBlockStyle}"/>
                 <TextBox x:Name="scirankfind" Margin="15 0" Style="{StaticResource DarkTextBoxStyle}"/>
-                <Button x:Name="scirankbtn" Content="Get" Width="60" Height="30" Click="scirankbtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
+                <Button x:Name="scirankbtn" Margin="0 5" Content="Get" Width="60" Height="30" Click="scirankbtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

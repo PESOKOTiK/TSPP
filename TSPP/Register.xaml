@@ -4,13 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TSPP"
-        Background="DarkGray"
+        Background="#F4EEFF"
         mc:Ignorable="d"
         Title="Register" Height="450" Width="240">
     <StackPanel VerticalAlignment="Center">
         <Image Margin="10" Source="https://telegra.ph/file/11ac04e1b125941713d00.png"/>
-        <TextBox x:Name="UsernameTextBox" Margin="10" MinHeight="20" MinWidth="180" Style="{StaticResource DarkTextBoxStyle}"/>
-        <PasswordBox x:Name="PasswordBox" Margin="10" MinHeight="20" MinWidth="180" Style="{StaticResource DarkPassBoxStyle}"/>
+        <Grid>
+            <TextBox x:Name="UsernameTextBox" Margin="10" MinHeight="20" MinWidth="180" Style="{StaticResource DarkTextBoxStyle}"/>
+            <TextBlock Text="Username" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" >
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                        <Setter Property="Foreground" Value="#444444"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=UsernameTextBox}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+        <Grid>
+            <PasswordBox x:Name="PasswordBox" Margin="10" MinHeight="20" MinWidth="180" Style="{StaticResource DarkPassBoxStyle}"/>
+            <TextBlock Text="Password" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" >
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="FontFamily" Value="Cascadia Code Semi Bold" />
+                        <Setter Property="Foreground" Value="#444444"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Password, ElementName=PasswordBox}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
         <Button Content="Register" Margin="10" Click="RegisterButton"  Style="{StaticResource DarkButtonStyle}"/>
         <Button Content="Already have account? Login" Click="LoginButton_Click" Margin="10"  Style="{StaticResource DarkButtonStyle}"/>
         <Button Content="Continue as guest" Margin="10" Click="Button_Click"  Style="{StaticResource DarkButtonStyle}"/>

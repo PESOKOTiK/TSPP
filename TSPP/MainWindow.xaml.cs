@@ -110,16 +110,27 @@ namespace TSPP
                 }
                 else
                 {
-                    tmp.Name = nametxtbx.Text;
-                    tmp.Kafedra = kafedratxtbx.Text;
-                    tmp.BirthYear = Convert.ToInt32(birthtxtbx.Text);
-                    tmp.WorkYear = Convert.ToInt32(workyeartxtbx.Text);
-                    tmp.Rank = ranktxtbx.Text;
-                    if (sciranktxtbx.Text == "")
-                        tmp.ScienceRank = "none";
-                    else
-                        tmp.ScienceRank = sciranktxtbx.Text;
+                    try
+                    {
+                        tmp.Name = nametxtbx.Text;
+                        tmp.Kafedra = kafedratxtbx.Text;
+                        tmp.BirthYear = Convert.ToInt32(birthtxtbx.Text);
+                        tmp.WorkYear = Convert.ToInt32(workyeartxtbx.Text);
+                        tmp.Rank = ranktxtbx.Text;
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Values error");
+                        return;
+                    }
+                   
+                        if (sciranktxtbx.Text == "")
+                            tmp.ScienceRank = "none";
+                        else
+                            tmp.ScienceRank = sciranktxtbx.Text;
                     AddUniWorker(tmp.Name, tmp.Kafedra, tmp.BirthYear, tmp.WorkYear, tmp.Rank, tmp.ScienceRank);
+                    
+                    
                 }
             }
             else
@@ -197,6 +208,11 @@ namespace TSPP
 
         private void editbtn_Click(object sender, RoutedEventArgs e)
         {
+            if(selectedId == 0)
+            {
+                MessageBox.Show("User not selected");
+                return;
+            }
             if (CheckForEmptyFields())
             {
                 UniWorker tmp = new();
@@ -253,6 +269,10 @@ namespace TSPP
                     updateTable();
                 }
             }
+            else
+            {
+                MessageBox.Show("User not selected");
+            }
             
             
         }
@@ -268,7 +288,8 @@ namespace TSPP
                     int count = Convert.ToInt32(cmd.ExecuteScalar());
                     if (count >= MAXDBENTRY)
                     {
-                        MessageBox.Show("УВАГА\nДосягнуто максимальну кількість записів");
+                        if(!isGuest)
+                            MessageBox.Show("УВАГА\nДосягнуто максимальну кількість записів");
                         isMaxEntry = true;
                     }
                     else
@@ -293,16 +314,19 @@ namespace TSPP
                 string find = scirankfind.Text == "" ? "none" : scirankfind.Text;
                 Paragraph paragraph = doc.Paragraphs.Add();
                 paragraph.Range.Text = $"Workers with science rank {find}\n";
+                List<UniWorker> finded = new();
                 foreach (var item in uniWorkers)
                 {
                     if (item.ScienceRank == find)
                     {
+                        finded.Add(item);
                         paragraph = doc.Paragraphs.Add();
                         paragraph.Range.Text = $"Worker {item.Name} has science rank {item.ScienceRank}\n";
                     }
                 }
+                dataGrid.DataContext = finded;
                 object fileName = GetSaveFileName();
-                if (fileName != null)
+                if (fileName!= "")
                 {
                     try
                     {
@@ -333,19 +357,19 @@ namespace TSPP
                 Microsoft.Office.Interop.Word.Document doc = wordApp.Documents.Add();
                 Paragraph paragraph = doc.Paragraphs.Add();
                 paragraph.Range.Text = "Workers older than 60 years\n";
+                List<UniWorker> finded = new();
                 foreach (var item in uniWorkers)
                 {
                     if ((DateTime.Now.Year - item.BirthYear) > 60)
                     {
-                        // Write data to Word document
+                        finded.Add(item);
                         paragraph = doc.Paragraphs.Add();
                         paragraph.Range.Text = $"Worker {item.Name} with birth year {item.BirthYear} is older than 60 years and have worked for {DateTime.Now.Year - item.WorkYear} years.\n";
                     }
                 }
-
-                // Save the document
+                dataGrid.DataContext = finded;
                 object fileName = GetSaveFileName();
-                if (fileName != null)
+                if (fileName != "")
                 {
                     doc.SaveAs2(ref fileName);
                     doc.Close();
@@ -363,7 +387,6 @@ namespace TSPP
             saveFileDialog.Filter = "Word Documents|*.docx";
             saveFileDialog.Title = "Save Output as Word Document";
             saveFileDialog.ShowDialog();
-
             return saveFileDialog.FileName;
         }
 
@@ -372,6 +395,11 @@ namespace TSPP
             Login login = new Login();
             login.Show();
             this.Close();
+        }
+
+        private void refreshbtn_Click(object sender, RoutedEventArgs e)
+        {
+            updateTable();
         }
     }
 }
