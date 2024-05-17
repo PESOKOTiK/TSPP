@@ -449,7 +449,6 @@ namespace TSPP
 
         private void refreshbtn_Click(object sender, RoutedEventArgs e)
         {
-            refreshbtn.Content = getboth.IsChecked.Value.ToString();
             updateTable();
         }
     }

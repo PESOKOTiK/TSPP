@@ -157,6 +157,7 @@
             <StackPanel Orientation="Vertical" Margin="0 0">
                 <TextBlock Text="Get all workers w or w/o science rank" Margin="5 10" Style="{StaticResource DarkTextBlockStyle}"/>
                 <TextBox x:Name="scirankfind" Margin="15 0" Style="{StaticResource DarkTextBoxStyle}"/>
+                <Button x:Name="scirankbtn" Content="Get" Width="60" Height="30" Click="scirankbtn_Click" Margin="0 5"  Style="{StaticResource DarkButtonStyle}"/>
             </StackPanel>
         </StackPanel>
     </Grid>
