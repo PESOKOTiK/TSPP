@@ -147,11 +147,16 @@
                 <TextBlock Text="Get all seniors (over 60 years)" Margin="10 10" Style="{StaticResource DarkTextBlockStyle}"/>
                 <Button x:Name="seniorsbtn" Content="Get" Width="60" Height="30" Click="seniorsbtn_Click" Margin="0 20"  Style="{StaticResource DarkButtonStyle}"/>
             </StackPanel>
-            <Border BorderThickness="1 0" BorderBrush="Black"/>
+            <Border BorderThickness="1 0" BorderBrush="Black">
+                <StackPanel>
+                    <TextBlock Text=" &amp;" Margin="0 30 0 0"/>
+                    <CheckBox x:Name="getboth"/>
+                </StackPanel>
+            </Border>
+
             <StackPanel Orientation="Vertical" Margin="0 0">
                 <TextBlock Text="Get all workers w or w/o science rank" Margin="5 10" Style="{StaticResource DarkTextBlockStyle}"/>
                 <TextBox x:Name="scirankfind" Margin="15 0" Style="{StaticResource DarkTextBoxStyle}"/>
-                <Button x:Name="scirankbtn" Margin="0 5" Content="Get" Width="60" Height="30" Click="scirankbtn_Click"  Style="{StaticResource DarkButtonStyle}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

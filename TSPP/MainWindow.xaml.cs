@@ -1,4 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using Paragraph = Microsoft.Office.Interop.Word.Paragraph;
 
@@ -31,6 +33,7 @@ namespace TSPP
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             updateTable();
         }
 
@@ -313,6 +316,11 @@ namespace TSPP
                 Microsoft.Office.Interop.Word.Document doc = wordApp.Documents.Add();
                 string find = scirankfind.Text == "" ? "none" : scirankfind.Text;
                 Paragraph paragraph = doc.Paragraphs.Add();
+                if (getboth.IsChecked.Value)
+                {
+                    GetBoth(wordApp, doc, paragraph, find);
+                    return;
+                }
                 paragraph.Range.Text = $"Workers with science rank {find}\n";
                 List<UniWorker> finded = new();
                 foreach (var item in uniWorkers)
@@ -356,6 +364,11 @@ namespace TSPP
                 Microsoft.Office.Interop.Word.Application wordApp = new Microsoft.Office.Interop.Word.Application();
                 Microsoft.Office.Interop.Word.Document doc = wordApp.Documents.Add();
                 Paragraph paragraph = doc.Paragraphs.Add();
+                if(getboth.IsChecked.Value)
+                {
+                    GetBoth(wordApp, doc, paragraph, scirankfind.Text);
+                    return;
+                }
                 paragraph.Range.Text = "Workers older than 60 years\n";
                 List<UniWorker> finded = new();
                 foreach (var item in uniWorkers)
@@ -369,17 +382,54 @@ namespace TSPP
                 }
                 dataGrid.DataContext = finded;
                 object fileName = GetSaveFileName();
-                if (fileName != "")
+                try
                 {
-                    doc.SaveAs2(ref fileName);
-                    doc.Close();
-                    wordApp.Quit();
+                    if (fileName != "")
+                    {
+                        doc.SaveAs2(ref fileName);
+                        doc.Close();
+                        wordApp.Quit();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Operation canceled. Document not saved.");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Operation canceled. Document not saved.");
+                    MessageBox.Show(ex.Message);
                 }
             }
+        }
+
+        private void GetBoth(Microsoft.Office.Interop.Word.Application wordApp, Microsoft.Office.Interop.Word.Document doc, Paragraph paragraph, string find)
+        {
+            List<UniWorker> finded = new();
+            paragraph.Range.Text = $"Workers older than 60 years and with rank {find}\n";
+            if(find == "")
+                find = "none";
+            foreach (var item in uniWorkers)
+            {
+                if ((DateTime.Now.Year - item.BirthYear) > 60 && item.ScienceRank == find)
+                {
+                    finded.Add(item);
+                    paragraph = doc.Paragraphs.Add();
+                    paragraph.Range.Text = $"Worker {item.Name} with birth year {item.BirthYear} is older than 60 years and have worked for {DateTime.Now.Year - item.WorkYear} years. {item.Name} have {find} science rank\n";
+                }
+            }
+            dataGrid.DataContext = finded;
+            object fileName = GetSaveFileName();
+            if (fileName != "")
+            {
+                doc.SaveAs2(ref fileName);
+                doc.Close();
+                wordApp.Quit();
+            }
+            else
+            {
+                MessageBox.Show("Operation canceled. Document not saved.");
+            }
+            return;
         }
         private string GetSaveFileName()
         {
@@ -399,6 +449,7 @@ namespace TSPP
 
         private void refreshbtn_Click(object sender, RoutedEventArgs e)
         {
+            refreshbtn.Content = getboth.IsChecked.Value.ToString();
             updateTable();
         }
     }
